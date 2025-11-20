@@ -1,7 +1,28 @@
 <?php
+session_start(); // Toujours démarrer la session en haut
+
 require_once 'backend/db.php';
 require_once 'backend/auth.php';
 require_once 'backend/actions.php';
+
+// Déterminer l'email courant
+if(isset($_POST['mail'])){
+    $CURRENT_EMAIL = $_POST['mail'];
+    setcookie('email', $CURRENT_EMAIL, time()+3600, "/");
+    $_COOKIE['email'] = $CURRENT_EMAIL; // Pour que ce soit dispo immédiatement
+} else {
+    $CURRENT_EMAIL = $_COOKIE['email'] ?? null;
+}
+
+// Déconnexion
+if(isset($_POST['logout'])){
+    setcookie('email', '', time()-3600, "/");
+    $CURRENT_EMAIL = null;
+    header("Location: index.php");
+    exit;
+}
+?>
+
 ?>
 <!doctype html>
 <html>
@@ -18,13 +39,22 @@ require_once 'backend/actions.php';
     <h1>Cas d'étude – Gestion des services</h1>
 
     <!-- Connexion par email -->
-    <div class="row card">
+   <div class="row card">
+    <?php if(!$CURRENT_EMAIL): ?>
         <form method="post">
-            <label>Votre email : <input name="mail" value="<?= htmlspecialchars($CURRENT_EMAIL ?? '') ?>"></label>
+            <label>Votre email : <input name="mail" value=""></label>
             <button class="btn">Se connecter</button>
         </form>
-        <div>Rôle: <b><?= htmlspecialchars(getRole()) ?></b></div>
-    </div>
+    <?php else: ?>
+        <div>Connecté en tant que : <b><?= htmlspecialchars($CURRENT_EMAIL) ?></b></div>
+        <form method="post">
+            <input type="hidden" name="logout" value="1">
+            <button class="btn" style="margin-top:8px;">Se déconnecter</button>
+        </form>
+    <?php endif; ?>
+    <div>Rôle: <b><?= htmlspecialchars(getRole()) ?></b></div>
+</div>
+
 
     <!-- Catalogue et réservations -->
     <div class="row">
