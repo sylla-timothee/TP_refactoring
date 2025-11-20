@@ -14,19 +14,15 @@ if(!$email){
 }
 
 switch($action){
-
-    // Lister tous les services
     case 'listServices':
         echo json_encode($DB['services']);
         break;
 
-    // Lister les réservations pour l'utilisateur connecté
     case 'listBookings':
         $userBookings = array_filter($DB['bookings'], fn($b)=>$b['email']==$email);
         echo json_encode(array_values($userBookings));
         break;
 
-    // Ajouter une réservation
     case 'bookService':
         $serviceId = (int)($_POST['serviceId'] ?? 0);
         $slot = $_POST['slot'] ?? null;
@@ -34,19 +30,16 @@ switch($action){
             echo json_encode(["success"=>false,"msg"=>"Service ou créneau manquant"]);
             break;
         }
-        $res = bookService($email, $serviceId, $slot);
-        echo json_encode($res);
+        echo json_encode(bookService($email, $serviceId, $slot));
         break;
 
-    // Annuler une réservation
     case 'cancelBooking':
         $bookingId = (int)($_POST['bookingId'] ?? 0);
         if(!$bookingId){
             echo json_encode(["success"=>false,"msg"=>"ID réservation manquant"]);
             break;
         }
-        $res = cancelBooking($bookingId, $email);
-        echo json_encode($res);
+        echo json_encode(cancelBooking($bookingId, $email));
         break;
 
     default:

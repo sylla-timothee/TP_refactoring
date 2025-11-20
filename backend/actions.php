@@ -1,6 +1,5 @@
 <?php
 require_once 'db.php';
-require_once 'auth.php';
 
 function addService($name, $description = "", $duration = 30){
     global $DB;
@@ -31,7 +30,6 @@ function addSlot($serviceId, $datetime){
 
 function bookService($email, $serviceId, $slot){
     global $DB;
-    // Vérifier double booking
     foreach($DB['bookings'] as $b){
         if($b['email'] == $email && $b['service'] == $serviceId && $b['slot'] == $slot){
             return ["success"=>false, "msg"=>"Vous avez déjà réservé ce créneau !"];
@@ -45,7 +43,7 @@ function bookService($email, $serviceId, $slot){
         "createdAt" => date("c")
     ];
     saveDB($DB);
-    return ["success"=>true];
+    return ["success"=>true, "msg"=>"Réservation confirmée !"];
 }
 
 function cancelBooking($bookingId, $email){
@@ -56,9 +54,9 @@ function cancelBooking($bookingId, $email){
                 return ["success"=>false, "msg"=>"Impossible d'annuler un créneau passé !"];
             }
             unset($DB['bookings'][$k]);
-            $DB['bookings'] = array_values($DB['bookings']); // réindexer
+            $DB['bookings'] = array_values($DB['bookings']);
             saveDB($DB);
-            return ["success"=>true];
+            return ["success"=>true, "msg"=>"Réservation annulée !"];
         }
     }
     return ["success"=>false, "msg"=>"Réservation introuvable"];

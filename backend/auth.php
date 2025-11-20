@@ -1,18 +1,15 @@
 <?php
-require_once __DIR__ . '/db.php';
+session_start();
 
-function getCurrentEmail() {
-    if (isset($_POST['mail'])) {
-        setcookie('email', $_POST['mail']);
-        return $_POST['mail'];
-    }
-    return $_COOKIE['email'] ?? null;
+$CURRENT_EMAIL = $_SESSION['email'] ?? ($_POST['mail'] ?? null);
+if(isset($_POST['mail'])){
+    $_SESSION['email'] = $_POST['mail'];
 }
 
-function getRole($email) {
-    $db = loadDB();
-    foreach ($db['users'] as $u) {
-        if ($u['email'] === $email) return $u['role'];
+function getRole(){
+    global $DB, $CURRENT_EMAIL;
+    foreach($DB['users'] as $u){
+        if($u['email'] == $CURRENT_EMAIL) return $u['role'];
     }
     return "anon";
 }
