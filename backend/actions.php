@@ -1,57 +1,65 @@
 <?php
-require_once __DIR__ . '/db.php';
+require_once 'db.php';
+require_once 'auth.php';
 
-function addService($name, $type) {
-    $db = loadDB();
-    $id = count($db['services']) + 1;
-
-    $db['services'][] = [
+function addService($name, $description = "", $duration = 30){
+    global $DB;
+    if(!$name) return false;
+    $id = count($DB['services']) + 1;
+    $DB['services'][] = [
         "id" => $id,
         "name" => $name,
-        "type" => $type,
+        "description" => $description,
+        "duration" => $duration,
         "slots" => []
     ];
-
-    saveDB($db);
-    return ["status" => "ok", "id" => $id];
+    saveDB($DB);
+    return true;
 }
 
-function addSlot($sid, $slot) {
-    $db = loadDB();
-
-    foreach ($db['services'] as &$sv) {
-        if ($sv['id'] == $sid) {
-            $sv['slots'][] = $slot;
+function addSlot($serviceId, $datetime){
+    global $DB;
+    foreach($DB['services'] as &$s){
+        if($s['id'] == $serviceId){
+            $s['slots'][] = $datetime;
+            saveDB($DB);
+            return true;
         }
     }
-
-    saveDB($db);
-    return ["status" => "ok"];
+    return false;
 }
 
-function bookService($email, $sid, $slot) {
-    $db = loadDB();
-
-    $db['bookings'][] = [
-        "id" => count($db['bookings']) + 1,
+function bookService($email, $serviceId, $slot){
+    global $DB;
+    // Vérifier double booking
+    foreach($DB['bookings'] as $b){
+        if($b['email'] == $email && $b['service'] == $serviceId && $b['slot'] == $slot){
+            return ["success"=>false, "msg"=>"Vous avez déjà réservé ce créneau !"];
+        }
+    }
+    $DB['bookings'][] = [
+        "id" => count($DB['bookings']) + 1,
         "email" => $email,
-        "service" => $sid,
-        "slot" => $slot
+        "service" => $serviceId,
+        "slot" => $slot,
+        "createdAt" => date("c")
     ];
-
-    saveDB($db);
-    return ["status" => "ok"];
+    saveDB($DB);
+    return ["success"=>true];
 }
 
-function cancelBooking($bid) {
-    $db = loadDB();
-
-    foreach ($db['bookings'] as $k => $b) {
-        if ($b['id'] == $bid) {
-            unset($db['bookings'][$k]);
+function cancelBooking($bookingId, $email){
+    global $DB;
+    foreach($DB['bookings'] as $k => $b){
+        if($b['id'] == $bookingId && $b['email'] == $email){
+            if(strtotime($b['slot']) < time()){
+                return ["success"=>false, "msg"=>"Impossible d'annuler un créneau passé !"];
+            }
+            unset($DB['bookings'][$k]);
+            $DB['bookings'] = array_values($DB['bookings']); // réindexer
+            saveDB($DB);
+            return ["success"=>true];
         }
     }
-
-    saveDB($db);
-    return ["status" => "ok"];
+    return ["success"=>false, "msg"=>"Réservation introuvable"];
 }

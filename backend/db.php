@@ -1,16 +1,9 @@
 <?php
-
-function loadDB() {
-    $path = __DIR__ . '/../data.json';
-    $data = json_decode(file_get_contents($path), true);
-    
-    if (!$data) {
-        $data = ["services" => [], "users" => [], "bookings" => []];
-    }
-    return $data;
+$DB = json_decode(file_get_contents(__DIR__ . '/../data.json'), true);
+if(!$DB){
+    $DB = ["services"=>[], "users"=>[], "bookings"=>[]];
 }
 
-function saveDB($db) {
-    $path = __DIR__ . '/../data.json';
-    file_put_contents($path, json_encode($db, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+function saveDB($DB){
+    file_put_contents(__DIR__ . '/../data.json', json_encode($DB, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 }

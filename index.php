@@ -9,27 +9,33 @@ $role = getRole($email);
     <meta charset="utf-8">
     <title>Services</title>
     <script src="frontend/assets/app.js" defer></script>
+    <link rel="stylesheet" href="frontend/assets/styles.css">
+
 </head>
-<body>
+<<body>
+<div class="main-container">
 
 <h1>Cas d'étude – Gestion des services</h1>
 
 <form method="post">
     <label>Email: <input name="mail" value="<?= htmlspecialchars($email) ?>"></label>
-    <button>Se connecter</button>
+    <button class="btn">Se connecter</button>
 </form>
 
 <p>Rôle: <b><?= htmlspecialchars($role) ?></b></p>
 
-<div>
-    <h3>Services</h3>
-    <div id="services"></div>
+<div class="row">
+    <div class="card">
+        <h3>Services</h3>
+        <div id="services"></div>
+    </div>
+
+    <div class="card">
+        <h3>Réservations</h3>
+        <div id="bookings"></div>
+    </div>
 </div>
 
-<div>
-    <h3>Réservations</h3>
-    <div id="bookings"></div>
-</div>
-
+</div> <!-- fin main-container -->
 </body>
-</html>
+</

@@ -1,0 +1,127 @@
+/* -------------------- Conteneur principal -------------------- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e0f7fa;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* centre horizontalement */
+}
+
+.main-container {
+    width: 100%;
+    max-width: 900px; /* limite la largeur totale */
+}
+
+/* -------------------- Titres -------------------- */
+h1 {
+    text-align: center;
+    color: #006064;
+}
+
+h3 {
+    margin-top: 0;
+    color: #004d40;
+}
+
+/* -------------------- Layout -------------------- */
+.row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap; /* pour responsive */
+    justify-content: center; /* centre les colonnes si elles ne remplissent pas toute la largeur */
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 16px;
+    flex: 1 1 250px; /* cartes adaptatives avec min-width */
+    max-width: 300px; /* ne s’étend pas trop */
+    box-sizing: border-box;
+}
+
+/* -------------------- Formulaire -------------------- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+input, select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button.btn {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.2s;
+    width: fit-content; /* taille adaptée au contenu */
+}
+
+button.btn:hover {
+    background-color: #e0e0e0;
+}
+
+button.btn.danger {
+    background-color: #ffb3b3;
+}
+
+button.btn.danger:hover {
+    background-color: #ff9999;
+}
+
+/* Bouton "Se connecter" spécifique */
+form:first-of-type button.btn {
+    padding: 5px 8px;
+    font-size: 13px;
+    background-color: #b2ebf2;
+    border: 1px solid #81d4fa;
+}
+
+form:first-of-type button.btn:hover {
+    background-color: #81d4fa;
+}
+
+/* -------------------- Services -------------------- */
+.service-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 8px;
+    background: #fafafa;
+}
+
+.service-card.room {
+    border-left: 5px solid #4CAF50;
+}
+
+.service-card.equipment {
+    border-left: 5px solid #2196F3;
+}
+
+.service-card.autre {
+    border-left: 5px solid #FF9800;
+}
+
+/* -------------------- Réservations -------------------- */
+.booking-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 8px;
+    background: #fff8e1;
+}

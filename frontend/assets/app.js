@@ -4,11 +4,13 @@ async function refreshServices() {
 
     const div = document.getElementById("services");
     div.innerHTML = services.map(s => `
-        <div>
-            <b>${s.name}</b> (${s.type})<br>
-            Créneaux: ${s.slots.join(", ")}
+        <div class="service-card ${s.type ?? 'autre'}">
+            <b>${s.name}</b> (${s.type ?? 'autre'})<br>
+            ${s.description ? `<i>${s.description}</i><br>` : ""}
+            Durée: ${s.duration ?? 30} min<br>
+            Créneaux: ${s.slots.length ? s.slots.join(", ") : "Aucun"}
         </div>
-    `).join("<hr>");
+    `).join("");
 }
 
 async function refreshBookings() {
@@ -17,14 +19,19 @@ async function refreshBookings() {
     const bookings = await res.json();
 
     const div = document.getElementById("bookings");
+    if(bookings.length === 0){
+        div.innerHTML = "<p>Aucune réservation</p>";
+        return;
+    }
     div.innerHTML = bookings.map(b => `
-        <div>
-            Service ID: ${b.service} — ${b.slot}
+        <div class="booking-card">
+            Service ID: ${b.service}<br>
+            Créneau: ${b.slot}
         </div>
-    `).join("<hr>");
+    `).join("");
 }
 
-function getCookie(name) {
+function getCookie(name){
     return document.cookie.split("; ")
         .find(row => row.startsWith(name + "="))
         ?.split("=")[1];
