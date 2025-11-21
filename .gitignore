@@ -1,0 +1,66 @@
+##############################
+# 🔹 BACKEND (PHP)
+##############################
+
+# Données persistées (base JSON locale)
+data.json
+
+# Logs et fichiers temporaires
+*.log
+*.cache
+*.tmp
+
+# Sessions PHP (si activées côté serveur)
+sessions/
+php_session/
+
+##############################
+# 🔹 FRONTEND (JS / REACT)
+##############################
+
+# Node dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Cache navigateur ou bundler
+.cache/
+.next/
+.vite/
+temp/
+
+##############################
+# 🔹 ENV & CONFIG SENSIBLES
+##############################
+
+.env
+.env.local
+.env.*.local
+
+##############################
+# 🔹 FICHIERS SYSTÈME / IDE
+##############################
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# VS Code
+.vscode/
+.history/
+
+# JetBrains / PHPStorm
+.idea/
+
+##############################
+# 🔹 ARCHIVES / EXPORTS
+##############################
+
+*.zip
+*.tar
+*.gz
+*.rar
