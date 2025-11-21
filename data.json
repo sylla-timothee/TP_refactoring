@@ -7,8 +7,9 @@
             "description": "Salle de réunion principale",
             "duration": 60,
             "slots": [
-                "2025-10-20 09:00",
-                "2025-10-20 10:00"
+                "2025-12-10 09:00",
+                "2025-12-10 10:00",
+                "2025-12-11 14:00"
             ]
         },
         {
@@ -18,7 +19,8 @@
             "description": "Studio pour prises de vue",
             "duration": 120,
             "slots": [
-                "2025-10-20 14:00"
+                "2025-12-12 14:00",
+                "2025-12-12 16:00"
             ]
         }
     ],
@@ -34,34 +36,5 @@
             "role": "user"
         }
     ],
-    "bookings": [
-        {
-            "id": 1,
-            "email": null,
-            "service": 1,
-            "slot": "",
-            "createdAt": null
-        },
-        {
-            "id": 2,
-            "email": "bobby@gmail.com",
-            "service": 2,
-            "slot": "2025-10-20 14:00",
-            "createdAt": "2025-11-20T23:59:41+01:00"
-        },
-        {
-            "id": 3,
-            "email": "bobby@gmail.com",
-            "service": 1,
-            "slot": "2025-10-20 10:00",
-            "createdAt": "2025-11-20T23:59:47+01:00"
-        },
-        {
-            "id": 4,
-            "email": "rolo@gmail.com",
-            "service": 2,
-            "slot": "2025-10-20 14:00",
-            "createdAt": "2025-11-21T00:10:04+01:00"
-        }
-    ]
+    "bookings": []
 }

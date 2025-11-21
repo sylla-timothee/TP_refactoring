@@ -52,7 +52,6 @@ if(isset($_POST['logout'])){
             <button class="btn" style="margin-top:8px;">Se déconnecter</button>
         </form>
     <?php endif; ?>
-    <div>Rôle: <b><?= htmlspecialchars(getRole()) ?></b></div>
 </div>
 
 
