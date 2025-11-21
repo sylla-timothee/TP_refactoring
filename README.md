@@ -1,24 +1,72 @@
-OBJECTIF DU TP
-L’objectif de ce TP est de refondre le projet fourni dans le ZIP en appliquant les bonnes pratiques de conception et de développement vues en cours. Vous devez réorganiser, clarifier et améliorer le code existant afin qu’il soit plus lisible, maintenable et évolutif, tout en conservant les mêmes fonctionnalités. Le but n’est pas de tout réécrire, mais d’améliorer la structure interne (qualité du code, organisation, séparation des responsabilités).
+# Application de réservation de services
 
-Contexte fonctionnel du projet
-L’application fournie simule un mini système de gestion avec liste d’éléments et opérations CRUD de base, avec stockage simple (fichier, base légère ou mémoire) et une interface minimaliste (web ou console). Le code fonctionne, mais présente des faiblesses : mélange des responsabilités, nommages et indentation incohérents, duplication de code, peu de documentation, pas d’architecture claire.
+## 📌 Présentation du projet
+Ce projet est une application web permettant la gestion et la réservation de services (ex : salles, équipements, ateliers).  
+Elle propose un système de connexion simplifiée par email, un catalogue de services consultable, ainsi qu'un module d’administration permettant d’ajouter des services et des créneaux de réservation.
+
+Ce projet a été réalisé dans le cadre d’un travail pratique visant à restructurer un code existant et mal organisé pour l'adapter à une architecture plus propre et modulaire.
+
+---
+
+## 🎯 Objectifs fonctionnels
+
+- Connexion sans mot de passe via email (session simulée)
+- Consultation des services et de leurs créneaux disponibles
+- Réservation et annulation selon l’utilisateur connecté
+- Accès administrateur permettant :
+  - d’ajouter un service
+  - d’ajouter des créneaux
+  - d’afficher toutes les réservations
+- Persistance via fichier JSON
+
+---
+
+## 🛠 Choix techniques et justification
+
+| Élément | Choix | Raison |
+|---------|-------|--------|
+| Backend | PHP procédural modulaire | Simplicité, respect du code de départ, facilité de déploiement |
+| Stockage | JSON (`data.json`) | Base légère, pas de serveur SQL, persistance simple pour tests |
+| Frontend | JavaScript Vanilla + HTML/CSS | Légèreté, pas de framework imposé |
+| Session | Cookie + stockage JSON | Simule une authentification sans mot de passe |
+| Architecture | Séparation des rôles MVC simplifiée | Meilleure lisibilité et maintenance |
+
+Ce découpage permet de respecter l’exigence du professeur : **séparer présentation, logique métier et accès aux données**.
+
+---
+
+## 📂 Structure du projet
+
+project/
+│ index.php → page principale + affichage
+│ api.php → points d’accès JSON (fetch)
+│ data.json → base de données simulée
+│ README.md
+│
+├── backend/
+│ ├── db.php → gestion lecture/écriture JSON
+│ ├── actions.php → logique métier (booking, ajout, annulation)
+│ └── auth.php → connexion et rôle utilisateur
+│
+└── frontend/
+├── assets/app.js → fetch + affichage dynamique
+└── assets/styles.css → styles graphiques
 
 
+---
 
-Plan global (objectifs à respecter)
+## 📦 Installation & Exécution
 
-Séparer présentation / logique métier / accès aux données.
+### ✔ Prérequis
 
-Valider et sanitiser toutes les entrées.
+- PHP installé  
+- Aucun serveur externe nécessaire
 
-Contrôler l’accès admin de manière simple.
+### ▶ Lancer l’application
 
-Persister proprement en JSON (schémas simples).
+```sh
+php -S localhost:8000
 
-Améliorer lisibilité (nomenclature, indentation, commentaires utiles).
+Puis ouvrir dans un navigateur :
 
-Ajouter outils qualité : PHP-CS-Fixer, .gitignore, README, tests unitaires simples (PHPUnit).
-
-Respecter règles fonctionnelles : login par email, liste services, réservation/consultation/annulation filtrée, règles anti-double booking, annulation seulement pour futur.
-
+http://localhost:8000
