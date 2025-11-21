@@ -5,9 +5,8 @@
             "name": "Salle A",
             "type": "room",
             "description": "Salle de réunion principale",
-            "duration": 60,
+            "duration": 120,
             "slots": [
-                "2025-12-10 09:00",
                 "2025-12-10 10:00",
                 "2025-12-11 14:00"
             ]
@@ -17,10 +16,29 @@
             "name": "Studio Photo",
             "type": "equipment",
             "description": "Studio pour prises de vue",
+            "duration": 60,
+            "slots": [
+                "2025-12-23 12:00"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Studio d'enregistrement",
+            "type": "equipment",
+            "description": "Studio pour des enregistrements audio",
+            "duration": 60,
+            "slots": [
+                "2025-12-12 16:00"
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Salle B",
+            "type": "room",
+            "description": "Salle a reserver pour des ateliers",
             "duration": 120,
             "slots": [
-                "2025-12-12 14:00",
-                "2025-12-12 16:00"
+                "2025-11-27 12:00"
             ]
         }
     ],
@@ -36,5 +54,34 @@
             "role": "user"
         }
     ],
-    "bookings": []
+    "bookings": [
+        {
+            "id": 1,
+            "email": "bob@yahoo.fr",
+            "service": 1,
+            "slot": "2025-12-10 09:00",
+            "createdAt": "2025-11-21T13:10:25+01:00"
+        },
+        {
+            "id": 2,
+            "email": "bob@yahoo.fr",
+            "service": 4,
+            "slot": "2025-11-27 10:00",
+            "createdAt": "2025-11-21T13:10:28+01:00"
+        },
+        {
+            "id": 3,
+            "email": "admin@exemple.com",
+            "service": 3,
+            "slot": "2025-12-12 14:00",
+            "createdAt": "2025-11-21T13:11:30+01:00"
+        },
+        {
+            "id": 4,
+            "email": "admin@exemple.com",
+            "service": 2,
+            "slot": "2025-11-23 11:00",
+            "createdAt": "2025-11-21T13:11:34+01:00"
+        }
+    ]
 }

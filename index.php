@@ -9,7 +9,7 @@ require_once 'backend/actions.php';
 if(isset($_POST['mail'])){
     $CURRENT_EMAIL = $_POST['mail'];
     setcookie('email', $CURRENT_EMAIL, time()+3600, "/");
-    $_COOKIE['email'] = $CURRENT_EMAIL; // Pour que ce soit dispo immédiatement
+    $_COOKIE['email'] = $CURRENT_EMAIL; 
 } else {
     $CURRENT_EMAIL = $_COOKIE['email'] ?? null;
 }
@@ -39,20 +39,26 @@ if(isset($_POST['logout'])){
     <h1>Cas d'étude – Gestion des services</h1>
 
     <!-- Connexion par email -->
-   <div class="row card">
-    <?php if(!$CURRENT_EMAIL): ?>
+   <?php if(!$CURRENT_EMAIL): ?>
+    <div class="row card">
         <form method="post">
-            <label>Votre email : <input name="mail" value=""></label>
+            <label>Votre email : 
+                <input name="mail" required>
+            </label>
             <button class="btn">Se connecter</button>
         </form>
-    <?php else: ?>
-        <div>Connecté en tant que : <b><?= htmlspecialchars($CURRENT_EMAIL) ?></b></div>
-        <form method="post">
+    </div>
+<?php else: ?>
+    <div style="margin-bottom:15px;">
+        Connecté en tant que : <b><?= htmlspecialchars($CURRENT_EMAIL) ?></b>
+        <form method="post" style="display:inline;">
             <input type="hidden" name="logout" value="1">
-            <button class="btn" style="margin-top:8px;">Se déconnecter</button>
+            <button class="btn" style="margin-left:10px;">Se déconnecter</button>
         </form>
-    <?php endif; ?>
-</div>
+    </div>
+<?php endif; ?>
+
+
 
 
     <!-- Catalogue et réservations -->

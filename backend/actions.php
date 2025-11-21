@@ -30,11 +30,15 @@ function addSlot($serviceId, $datetime){
 
 function bookService($email, $serviceId, $slot){
     global $DB;
+
+    // Empêcher double réservation
     foreach($DB['bookings'] as $b){
-        if($b['email'] == $email && $b['service'] == $serviceId && $b['slot'] == $slot){
-            return ["success"=>false, "msg"=>"Vous avez déjà réservé ce créneau !"];
+        if($b['service'] == $serviceId && $b['slot'] == $slot){
+            return ["success"=>false, "msg"=>"Ce créneau est déjà réservé !"];
         }
     }
+
+    // Ajouter la réservation
     $DB['bookings'][] = [
         "id" => count($DB['bookings']) + 1,
         "email" => $email,
@@ -42,22 +46,51 @@ function bookService($email, $serviceId, $slot){
         "slot" => $slot,
         "createdAt" => date("c")
     ];
+
+    // Retirer le créneau de la liste des slots du service
+    foreach($DB['services'] as &$s){
+        if($s['id'] == $serviceId){
+            $s['slots'] = array_values(array_filter($s['slots'], fn($slt) => $slt !== $slot));
+            break;
+        }
+    }
+
     saveDB($DB);
     return ["success"=>true, "msg"=>"Réservation confirmée !"];
 }
 
+
 function cancelBooking($bookingId, $email){
     global $DB;
+
     foreach($DB['bookings'] as $k => $b){
         if($b['id'] == $bookingId && $b['email'] == $email){
+
             if(strtotime($b['slot']) < time()){
                 return ["success"=>false, "msg"=>"Impossible d'annuler un créneau passé !"];
             }
+
+            // Réajouter le créneau au service
+            foreach($DB['services'] as &$s){
+                if($s['id'] == $b['service']){
+                    // Si le créneau n'est pas déjà dedans (sécurité)
+                    if(!in_array($b['slot'], $s['slots'])){
+                        $s['slots'][] = $b['slot'];
+                        sort($s['slots']); // tri optionnel
+                    }
+                    break;
+                }
+            }
+
+            // Supprimer la réservation
             unset($DB['bookings'][$k]);
             $DB['bookings'] = array_values($DB['bookings']);
+
             saveDB($DB);
             return ["success"=>true, "msg"=>"Réservation annulée !"];
         }
     }
+
     return ["success"=>false, "msg"=>"Réservation introuvable"];
 }
+

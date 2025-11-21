@@ -2,10 +2,14 @@ function getCookie(name){
     return document.cookie.split("; ").find(row => row.startsWith(name + "="))?.split("=")[1] ?? null;
 }
 
-async function fetchJSON(url, options = {}){
-    const res = await fetch(url, options);
+async function fetchJSON(url, options = {}) {
+    const res = await fetch(url, {
+        credentials: 'same-origin', // ⚡ Important pour envoyer les cookies
+        ...options
+    });
     return await res.json();
 }
+
 
 async function refreshServices(){
     const services = await fetchJSON("api.php?action=listServices");
@@ -59,16 +63,19 @@ async function bookSlot(serviceId, slot){
 }
 
 async function cancelBooking(bookingId){
+    const email = getCookie("email");
+    if(!email) return alert("Email non trouvé, reconnectez-vous.");
+
     const res = await fetchJSON("api.php?action=cancelBooking", {
         method: "POST",
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: `bookingId=${bookingId}`
+        body: `bookingId=${bookingId}&email=${encodeURIComponent(email)}`
     });
+
     alert(res.msg ?? (res.success ? "Annulé !" : "Erreur"));
     refreshBookings();
 }
-
-window.addEventListener("load", ()=>{
+window.onload = function(){
     refreshServices();
     refreshBookings();
-});
+};
